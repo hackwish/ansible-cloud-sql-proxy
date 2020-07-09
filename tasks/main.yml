@@ -1,0 +1,33 @@
+---
+# tasks file for ansible-cloud-sql-proxy
+- name: Create cloud-sql-proxy directory
+  file: path=/opt/cloudsqlproxy/ state=directory mode="a+rw"
+
+- name: Get cloud-sql-proxy.
+  get_url:
+    url: https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64
+    dest: "/opt/cloudsqlproxy/cloud_sql_proxy"
+    mode: 0755
+
+- name: Verify cloud-sql-proxy exists
+  stat: path=/opt/cloudsqlproxy/cloud_sql_proxy
+  register: cloud_sql_proxy_stat
+
+- name: Configure cloud-sql-proxy on system bin.
+  file:
+    src: "/opt/cloudsqlproxy/cloud_sql_proxy"
+    dest: "/usr/bin/cloud_sql_proxy"
+    state: link
+  when: cloud_sql_proxy_stat.stat.exists
+
+- name: Configure cloud-sql-proxy on system sbin.
+  file:
+    src: "/opt/cloudsqlproxy/cloud_sql_proxy"
+    dest: "/usr/sbin/cloud_sql_proxy"
+    state: link
+  when: cloud_sql_proxy_stat.stat.exists
+
+- command: cloud_sql_proxy -version
+  register: result
+  failed_when: false
+  changed_when: false
