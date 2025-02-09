@@ -41,7 +41,7 @@
 
 #Install cloud-sql-proxy on MacOS system.
 - name: Create cloud-sql-proxy
-  brew:
+  homebrew:
     name: cloud_sql_proxy
     state: present
   when: ansible_os_family == 'Darwin'
