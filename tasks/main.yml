@@ -47,7 +47,7 @@
   when: ansible_os_family == 'Darwin'
 
 # Is cloud-sql-proxy installed?
-- command: cloud-sql-proxy -version
+- command: cloud-sql-proxy --version
   register: result
   failed_when: false
   changed_when: false
