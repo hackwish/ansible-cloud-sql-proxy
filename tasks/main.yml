@@ -27,14 +27,14 @@
   - name: Configure cloud-sql-proxy on system bin.
     file:
       src: "/opt/cloudsqlproxy/cloud-sql-proxy"
-      dest: "/usr/bin/cloud_sql_proxy"
+      dest: "/usr/bin/cloud-sql-proxy"
       state: link
     when: cloud_sql_proxy_stat.stat.exists
 
   - name: Configure cloud-sql-proxy on system sbin.
     file:
       src: "/opt/cloudsqlproxy/cloud-sql-proxy"
-      dest: "/usr/sbin/cloud_sql_proxy"
+      dest: "/usr/sbin/cloud-sql-proxy"
       state: link
     when: cloud_sql_proxy_stat.stat.exists
   when: ansible_system == "Linux"
@@ -51,3 +51,6 @@
   register: result
   failed_when: false
   changed_when: false
+
+- debug:
+    var: result.stdout
